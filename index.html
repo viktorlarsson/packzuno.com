@@ -132,7 +132,8 @@ h1{font-family:var(--font-display);font-weight:500;font-size:clamp(44px,8vw,88px
 .stage svg{position:absolute;inset:0;width:100%;height:100%;display:block}
 .stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none}
 #fx{mix-blend-mode:screen}
-.ln{fill:none;stroke:url(#lineGrad);stroke-width:calc(var(--sw,1) * .85);stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1 1;stroke-dashoffset:1;opacity:.75}
+.ln{fill:none;stroke:url(#lineGrad);stroke-width:calc(var(--sw,1) * .95);stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1 1;stroke-dashoffset:1;opacity:.75}
+.ln.constr{opacity:.22;stroke-width:calc(var(--sw,1) * .7)}
 .ln.halo{stroke-width:calc(var(--sw,1) * 4);opacity:.08}
 .ln.ui{stroke:#f5a623;stroke-width:calc(var(--sw,1) * 1.1);opacity:.85}
 .ln.mach{stroke:#eef0f3;stroke-width:calc(var(--sw,1) * 1.9);opacity:1}
@@ -470,6 +471,56 @@ footer .row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
     ["M30 -50L60 -56H76","Underskåp på hjul",-56]
   ];
 
+  /* ---------- hand-drawn pen treatment: wobble, bowed strokes, overshooting ends ---------- */
+  let ps=11;const prand=()=>(ps=(ps*16807)%2147483647)/2147483647;
+  const tmp=document.createElementNS(NS,"path");svg.appendChild(tmp);
+  function penSub(d,pass){
+    tmp.setAttribute("d",d);const L=tmp.getTotalLength();if(L<2)return d;
+    const closed=/z\s*$/i.test(d);
+    const step=Math.max(4,Math.min(10,L/40));const n=Math.max(2,Math.ceil(L/step));
+    const over=closed?Math.min(18,L*.06):6+prand()*Math.min(14,L*.08);
+    const bow=(prand()-.5)*Math.min(5,L*.018)*(pass?1.6:1);
+    const f1=.012+prand()*.02,f2=.05+prand()*.04,p1=prand()*6.28,p2=prand()*6.28;
+    const amp=pass?1.1:.55;
+    const pts=[];
+    const at=l=>{const c=Math.min(L,Math.max(0,l));return tmp.getPointAtLength(c);};
+    const total=closed?L+over:L+2*over;
+    for(let i=0;i<=n;i++){
+      const u=i/n;let l=closed?u*total:u*total-over;
+      let P,T;
+      if(!closed&&l<0){const a=at(0),b=at(1);T={x:b.x-a.x,y:b.y-a.y};const k=Math.hypot(T.x,T.y)||1;T.x/=k;T.y/=k;P={x:a.x+T.x*l,y:a.y+T.y*l};}
+      else if(!closed&&l>L){const a=at(L-1),b=at(L);T={x:b.x-a.x,y:b.y-a.y};const k=Math.hypot(T.x,T.y)||1;T.x/=k;T.y/=k;P={x:b.x+T.x*(l-L),y:b.y+T.y*(l-L)};}
+      else{const lw=l%L;P=at(lw);const q=at(Math.min(L,lw+1)),r=at(Math.max(0,lw-1));T={x:q.x-r.x,y:q.y-r.y};const k=Math.hypot(T.x,T.y)||1;T.x/=k;T.y/=k;}
+      const off=bow*Math.sin(Math.PI*u)+amp*(Math.sin(l*f1+p1)*.7+Math.sin(l*f2+p2)*.3);
+      pts.push([P.x-T.y*off,P.y+T.x*off]);
+    }
+    return "M"+pts.map(q=>q[0].toFixed(1)+" "+q[1].toFixed(1)).join("L");
+  }
+  function pen(d){
+    const subs=d.split(/(?=M)/).filter(x=>x.trim());
+    return subs.map(sd=>{let out=penSub(sd,0);if(prand()<.3)out+=penSub(sd,1);return out;}).join("");
+  }
+  // one continuous line that loops through the scene, like a single-stroke drawing
+  function spline(P){let d=`M${P[0][0]} ${P[0][1]}`;for(let i=0;i<P.length-1;i++){const a=P[i-1]||P[i],b=P[i],c=P[i+1],e=P[i+2]||c;
+    d+=`C${(b[0]+(c[0]-a[0])/6).toFixed(1)} ${(b[1]+(c[1]-a[1])/6).toFixed(1)} ${(c[0]-(e[0]-b[0])/6).toFixed(1)} ${(c[1]-(e[1]-b[1])/6).toFixed(1)} ${c[0]} ${c[1]}`;}return d;}
+  const thread=spline([[-40,672],[160,640],[330,662],[250,598],[120,560],[300,520],[440,470],[470,412],[520,350],[548,294],[700,282],[640,250],[600,300],[760,330],[860,420],[940,520],[1000,560],[1060,592],[990,616],[930,596],[1010,572],[1140,600],[1260,640]]);
+  // construction lines: long faint rays through the vanishing point, past every corner
+  const constr=[L(-200,300,1400,300)];
+  [[0,0],[1200,0],[0,700],[1200,700],[0,250],[1200,250],[0,338],[1200,338],[300,700],[900,700],[440,0],[760,0]].forEach(([x,y])=>{
+    const e=toVP(x,y,.8);constr.push(L(x+(x-600)*.15,y+(y-300)*.15,e[0],e[1]));});
+  [432,768].forEach(x=>constr.push(L(x,120,x,520)));constr.push(L(330,216,870,216),L(330,412,870,412));
+  // hatching on glass and the back wall shops
+  function hatchWall(side,ta,tb,Y0a,Y0b,n){for(let k=0;k<n;k++){const t1=ta+(tb-ta)*(k/n),t2=Math.min(tb,t1+(tb-ta)*.35);
+    const x0=side<0?0:1200;const a=toVP(x0,Y0a,t1),b=toVP(x0,Y0b,t2);shops.push(L(a[0],a[1],b[0],b[1]));}}
+  hatchWall(-1,.24,.36,690,600,6);hatchWall(1,.5,.58,690,560,5);hatchWall(-1,.54,.61,400,345,5);
+  for(let x=616;x<668;x+=7)back.push(L(x,410,x+14,380));
+  for(let x=740;x<766;x+=6)back.push(L(x,410,x+10,388));
+  // a long bench on the floor for scale
+  back.push("M360 560L560 560L560 574L360 574Z","M360 560L384 548L572 548L560 560","M572 548L572 562L560 574","M380 574V582M540 574V582");
+  [floor,walls,ceil,shops,back,constr].forEach(arr=>arr.forEach((d,i)=>{arr[i]=pen(d);}));
+  back.push(thread);
+  tmp.remove();
+
   const SX=640,SY=690,DX=1012,DY=600,MX=DX,MY=DY,MS=.56;
 
   function mk(tag,attrs,parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);parent&&parent.appendChild(e);return e;}
@@ -484,6 +535,7 @@ footer .row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
   [...floor,...walls,...ceil,...shops,...back,...people].forEach(d=>mk("path",{d},ghost));
   const gg=mk("g",{transform:`translate(${MX} ${MY}) scale(${MS})`},ghost);[...cab,...unit].forEach(d=>mk("path",{d},gg));
 
+  addGroup(mall,constr,.06,.18,"constr");
   addGroup(mall,floor,.08,.2);
   addGroup(mall,walls,.1,.24);
   addGroup(mall,ceil,.14,.28);
