@@ -132,13 +132,14 @@ h1{font-family:var(--font-display);font-weight:500;font-size:clamp(44px,8vw,88px
 .stage svg{position:absolute;inset:0;width:100%;height:100%;display:block}
 .stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none}
 #fx{mix-blend-mode:screen}
-.ln{fill:none;stroke:url(#lineGrad);stroke-width:var(--sw,1);stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1 1;stroke-dashoffset:1;opacity:.75}
-.ln.halo{stroke-width:calc(var(--sw,1) * 5);opacity:.13}
+.ln{fill:none;stroke:url(#lineGrad);stroke-width:calc(var(--sw,1) * .85);stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1 1;stroke-dashoffset:1;opacity:.75}
+.ln.halo{stroke-width:calc(var(--sw,1) * 4);opacity:.08}
+.ln.ui{stroke:#f5a623;stroke-width:calc(var(--sw,1) * 1.1);opacity:.85}
 .ln.mach{stroke:#eef0f3;stroke-width:calc(var(--sw,1) * 1.9);opacity:1}
 .ln.amber{stroke:var(--amber)}
 .ln.dim{stroke:var(--amber);opacity:.9;stroke-width:calc(var(--sw,1) * 1.4)}
 .ln.amber{stroke-width:calc(var(--sw,1) * 1.6)}
-.ghost path{fill:none;stroke:url(#lineGrad);stroke-width:var(--sw,1);opacity:.06}
+.ghost path{fill:none;stroke:url(#lineGrad);stroke-width:var(--sw,1);opacity:.05}
 .svg-label{font-family:var(--font-mono);fill:var(--fg);letter-spacing:.04em}
 .svg-dim{font-family:var(--font-mono);fill:var(--amber);letter-spacing:.04em}
 .captions{position:absolute;left:0;right:0;bottom:0;padding-bottom:max(36px,env(safe-area-inset-bottom,0px));pointer-events:none}
@@ -255,9 +256,9 @@ footer .row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
             <stop offset="1" stop-color="#f5a623" stop-opacity="0"/>
           </radialGradient>
           <linearGradient id="screenFill" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="#3b2a6b"/>
-            <stop offset=".6" stop-color="#c46a2a"/>
-            <stop offset="1" stop-color="#f5a623"/>
+            <stop offset="0" stop-color="#2b1d0d"/>
+            <stop offset=".6" stop-color="#1a1209"/>
+            <stop offset="1" stop-color="#3a260e"/>
           </linearGradient>
           <filter id="blur" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4"/></filter>
           <radialGradient id="lineGrad" gradientUnits="userSpaceOnUse" cx="640" cy="560" r="760">
@@ -445,14 +446,12 @@ footer .row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
   // back wall: escalator + shops
   back.push("M462 412L548 294","M492 412L578 294","M456 398L542 280","M498 398L584 280","M456 398L462 412","M584 280L578 294");
   back.push("M610 412V294","M672 412V294","M734 412V294","M610 316H768","M600 270V216","M664 270V216","M724 270V216");
-  // planter / bench
-  back.push("M330 540a70 14 0 1 0 140 0a70 14 0 1 0 -140 0","M330 540V556a70 14 0 0 0 140 0V540","M372 534c4-30 10-48 28-62M400 528c2-26 -2-44 -14-58M428 534c-2-22 6-38 20-48");
-  people.push(person(260,610,108),person(560,470,60),person(668,520,77),person(730,640,119),person(140,660,126));
+
 
   /* ---------- Machine (local coords, origin = floor centre, y up negative) ---------- */
   const cab=[
     "M-40 -10H40V-80H-40Z","M-43 -80H43V-87H-43Z","M43 -80L53 -87V-94L43 -87","M-43 -87L-33 -94H53",
-    "M40 -10L50 -17V-87","M-18 -16Q18 -18 38 -42",
+    "M40 -10L50 -17V-87",
     "M-36 -10V0H36V-10","M36 0L46 -7V-17"
   ];
   const unit=[
@@ -460,7 +459,7 @@ footer .row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
     "M-28 -232L-20 -238H40Q46 -238 46 -232V-100L38 -94",
     "M-30 -222H22V-138H-30Z",
     "M-26 -128H-6V-114H-26Z","M-22 -121H-10",
-    "M8 -92Q30 -100 36 -124"
+    "M-30 -212H22"
   ];
   const led="M-29 -229H29Q35 -229 35 -223V-97Q35 -91 29 -91H-29Q-35 -91 -35 -97V-223Q-35 -229 -29 -229Z";
   const dims=["M-62 0V-232","M-67 0H-57","M-67 -232H-57","M-40 16H40","M-40 11V21","M40 11V21"];
@@ -490,11 +489,10 @@ footer .row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
   addGroup(mall,ceil,.14,.28);
   addGroup(mall,shops,.18,.34);
   addGroup(mall,back,.24,.38);
-  addGroup(mall,people,.3,.42);
 
   // destination footprint marker on the floor
   const mark=mk("g",{},mw);
-  const markG=addGroup(mark,["M976 600a38 7 0 1 0 76 0a38 7 0 1 0 -76 0","M1014 590v20M1002 600h24"],.4,.5,"dim");
+  const markG=addGroup(mark,["M976 600a38 7 0 1 0 76 0a38 7 0 1 0 -76 0"],.4,.5,"dim");
   // machine
   const M=mk("g",{},mw);
   const floorGlow=mk("ellipse",{cx:0,cy:-2,rx:110,ry:16,fill:"url(#floorGlow)",opacity:0},M);
@@ -507,6 +505,7 @@ footer .row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
   const glow=mk("path",{d:led,fill:"none",stroke:"#f5a623","stroke-width":5,filter:"url(#blur)",opacity:0},unitG);
   addGroup(unitG,unit,-2,-1,"mach");
   addGroup(unitG,[led],-2,-1,"amber");
+  addGroup(unitG,["M-26 -204h14v20h-14z","M-9 -204h14v20h-14z","M8 -204h10v20h-10z","M-26 -176h44","M-26 -170h30","M-26 -158h44v9h-44z"],-2,-1,"ui");
   const dimG=mk("g",{},M);
   const dimTexts=[
     mk("text",{x:-72,y:-116,class:"svg-dim","font-size":8,transform:"rotate(-90 -72 -116)","text-anchor":"middle"},dimG),
@@ -555,7 +554,7 @@ footer .row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
     const arrived=seg(p,.68,.76);
     const pulse=arrived>0&&arrived<1?Math.sin(arrived*Math.PI):0;
     glow.setAttribute("opacity",(.85+.15*pulse).toFixed(3));
-    screen.setAttribute("opacity",".55");
+    screen.setAttribute("opacity","1");
     floorGlow.setAttribute("opacity",(.8+.6*pulse).toFixed(3));
     mark.setAttribute("opacity",(1-arrived).toFixed(3));
     document.getElementById("heroOv").style.opacity=(1-seg(p,.02,.1)).toFixed(3);
@@ -573,6 +572,7 @@ footer .row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
     const upp=Math.max(vbw/box.width,vbh/box.height);
     svg.style.setProperty("--sw",(upp*1.1).toFixed(4));
     svg.setAttribute("viewBox",fit(start,aspect));
+    ghost.style.opacity=seg(p,.05,.3).toFixed(3);
     // light source follows the machine
     lineGrad.setAttribute("cx",mx.toFixed(1));lineGrad.setAttribute("cy",(my-70).toFixed(1));
     FX.vb=fitBox(start,aspect);FX.p=p;FX.z1=z1;FX.pulse=pulse;
@@ -603,7 +603,7 @@ footer .row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
     [bg,fx].forEach(c=>{c.width=Math.round(W*DPR);c.height=Math.round(H*DPR);});}
   size();window.addEventListener("resize",size);
   let seed=7;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
-  const dust=Array.from({length:150},()=>({x:rnd()*1200,y:rnd()*700,z:.3+rnd()*.7,s:.4+rnd()*1.4,ph:rnd()*6.28,sp:.15+rnd()*.5}));
+  const dust=Array.from({length:90},()=>({x:rnd()*1200,y:rnd()*700,z:.3+rnd()*.7,s:.35+rnd()*.9,ph:rnd()*6.28,sp:.15+rnd()*.5}));
   const toS=(x,y)=>{const v=FX.vb;return [(x-v.x)/v.w*W,(y-v.y)/v.h*H];};
   const allPaths=groups.flatMap(g=>g.items).filter(el=>!el.classList.contains("mach")&&!el.classList.contains("amber"));
   let visible=true;
@@ -648,10 +648,14 @@ footer .row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
         const v=el._v;if(!(v>0.01&&v<0.99))continue;
         const pt=el.getPointAtLength(v*el._len),m=el.getScreenCTM();if(!m)continue;
         const sx=m.a*pt.x+m.c*pt.y+m.e-sb.left,sy=m.b*pt.x+m.d*pt.y+m.f-sb.top;
-        const rr=10+4*Math.sin(time*20+n);
-        g=fc.createRadialGradient(sx,sy,0,sx,sy,rr*2.4);
-        g.addColorStop(0,"rgba(255,245,225,.95)");g.addColorStop(.18,"rgba(255,200,120,.55)");g.addColorStop(1,"rgba(255,160,60,0)");
-        fc.fillStyle=g;fc.fillRect(sx-rr*2.4,sy-rr*2.4,rr*4.8,rr*4.8);
+        const pb=el.getPointAtLength(Math.max(0,v-.05)*el._len);
+        const bx=m.a*pb.x+m.c*pb.y+m.e-sb.left,by2=m.b*pb.x+m.d*pb.y+m.f-sb.top;
+        const tg=fc.createLinearGradient(bx,by2,sx,sy);
+        tg.addColorStop(0,"rgba(255,190,100,0)");tg.addColorStop(1,"rgba(255,236,200,.9)");
+        fc.strokeStyle=tg;fc.lineWidth=1.5;fc.lineCap="round";fc.beginPath();fc.moveTo(bx,by2);fc.lineTo(sx,sy);fc.stroke();
+        g=fc.createRadialGradient(sx,sy,0,sx,sy,7);
+        g.addColorStop(0,"rgba(255,250,240,1)");g.addColorStop(.25,"rgba(255,210,140,.5)");g.addColorStop(1,"rgba(255,170,70,0)");
+        fc.fillStyle=g;fc.fillRect(sx-7,sy-7,14,14);
         if(++n>60)break;
       }
     }
