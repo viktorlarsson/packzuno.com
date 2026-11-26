@@ -1,5 +1,5 @@
 # packzuno.com
 
-Statisk webbplats för Packzuno. Allt ligger i `index.html` (inga byggsteg).
+Statisk webbplats för Packzuno. Allt ligger i `index.html`, utan byggsteg.
 
-Publiceras via GitHub Pages från grenen `main` (Settings → Pages → Deploy from a branch → `main` / root). `CNAME` pekar Pages mot packzuno.com.
+Driftsätts via Vercel. Importera repot som ett projekt med Framework Preset "Other", utan byggkommando och med roten som output.
