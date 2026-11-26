@@ -120,10 +120,12 @@ h1{font-family:var(--font-display);font-weight:500;font-size:clamp(44px,8vw,88px
 .hero-ov h1{font-size:clamp(40px,6.4vw,80px)}
 .hero-ov .lede{max-width:40ch}
 @media (max-aspect-ratio:19/20){
-  .hero-ov{align-items:flex-start;padding-top:calc(env(safe-area-inset-top,0px) + 96px);background:linear-gradient(180deg,rgba(8,9,10,.92) 0%,rgba(8,9,10,.6) 45%,transparent 60%)}
-  .hero-ov .wrap{gap:16px}
-  .hero-ov h1{font-size:clamp(36px,10vw,56px)}
-  .hero-ov .lede{font-size:16px}
+  /* portrait: machine sits in the top half, text below it on a dark field */
+  .hero-ov{align-items:flex-end;padding-bottom:calc(env(safe-area-inset-bottom,0px) + 84px);background:linear-gradient(180deg,transparent 0%,transparent 44%,rgba(8,9,10,.9) 56%,#08090a 64%)}
+  .hero-ov .wrap{gap:14px}
+  .hero-ov h1{font-size:clamp(34px,9.5vw,52px)}
+  .hero-ov .lede{font-size:15px}
+  .stage #poster{height:54%}
   .hero-ov .scroll-hint{display:none}
 }
 /* Scroll scene */
@@ -386,14 +388,19 @@ footer .row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
   function size(){const d=Math.min(2,devicePixelRatio||1);W=stage.clientWidth;H=stage.clientHeight;cv.width=Math.round(W*d);cv.height=Math.round(H*d);drawn=-1;}
   // where the machine sits in each part of the film, so narrow screens crop around it
   const focus=p=>p<.42?.62-.12*seg(p,.1,.42):p<.72?.5+.12*seg(p,.42,.72):.62-.17*seg(p,.72,1);
+  const portrait=()=>H>W*1.05;
   let want=0,P=0;
   function nearestLoaded(i){for(let k=0;k<N;k++){for(const j of [i-k,i+k]){const f=frames[j];if(f&&f.complete&&f.naturalWidth)return j;}}return -1;}
   function draw(){
-    const j=nearestLoaded(want);if(j<0||j===drawn)return;drawn=j;
+    const j=nearestLoaded(want);if(j<0||(j===drawn&&!(portrait()&&P<.13)))return;drawn=j;
     const im=frames[j],iw=im.naturalWidth,ih=im.naturalHeight,cw=cv.width,ch=cv.height;
-    const sc=Math.max(cw/iw,ch/ih),dw=iw*sc,dh=ih*sc;
-    const fx=focus(P),dx=Math.min(0,Math.max(cw-dw,cw/2-dw*fx)),dy=(ch-dh)/2;
+    // portrait hero: shrink the film into the top half so the headline gets its own space below
+    const k=portrait()?1-seg(P,.02,.12):0,top=0,vh=ch*(1-k*.46);
+    const sc=Math.max(cw/iw,vh/ih),dw=iw*sc,dh=ih*sc;
+    const fx=focus(P),dx=Math.min(0,Math.max(cw-dw,cw/2-dw*fx)),dy=top+(vh-dh)/2;
+    if(k>0){ctx.fillStyle="#08090a";ctx.fillRect(0,0,cw,ch);}
     ctx.drawImage(im,dx,dy,dw,dh);poster.style.opacity=0;
+    if(k>0){const g=ctx.createLinearGradient(0,dy+dh*.8,0,dy+dh);g.addColorStop(0,"rgba(8,9,10,0)");g.addColorStop(1,"#08090a");ctx.fillStyle=g;ctx.fillRect(0,dy+dh*.8,cw,dh*.2+1);}
   }
   function render(p){
     P=p;want=Math.round(p*(N-1));draw();
