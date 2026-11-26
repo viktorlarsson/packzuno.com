@@ -7,7 +7,7 @@
 <meta name="description" content="Packzuno har Pokémon-kort i automater i svenska köpcentrum. Boosterpaket och nya släpp, öppet när centrumet är öppet. Hitta en automat nära dig.">
 <link rel="canonical" href="https://packzuno.com/">
 <meta name="robots" content="index, follow, max-image-preview:large">
-<meta name="theme-color" content="#08090a">
+<meta name="theme-color" content="#000000">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -54,197 +54,139 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400&display=swap">
 <style>
-/* Layout: one narrow column of quiet sections, broken once by a full-bleed sticky "blueprint" scene that draws itself on scroll. */
+/* Black and white, Geist, hairline frame with crosshair corners. The only colour on the page
+   is the machine's own light in the render. */
 :root{
-  --bg:#08090a;
-  --surface:#0e0f11;
-  --line:rgba(255,255,255,.08);
-  --line-strong:rgba(255,255,255,.14);
-  --fg:#f4f5f6;
-  --muted:#8b9099;
-  --faint:#5c616a;
-  --sketch:#c9ced6;
-  --amber:#f5a623;
-  --amber-soft:rgba(245,166,35,.14);
-  --font-display:"Geist","Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --font-body:"Geist","Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --font-mono:"Geist Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  --bg:#000;
+  --bg2:#0a0a0a;
+  --fg:#ededed;
+  --muted:#a1a1a1;
+  --faint:#666;
+  --line:#262626;
+  --cross:#555;
+  --font:"Geist",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"Geist Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
   --maxw:1080px;
   color-scheme:dark;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--bg)}
 a{color:inherit}
-:focus-visible{outline:2px solid var(--amber);outline-offset:3px;border-radius:4px}
-.wrap{max-width:var(--maxw);margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
-.mono{font-family:var(--font-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.ph{border-bottom:1px dashed var(--amber);cursor:help}
+:focus-visible{outline:2px solid var(--fg);outline-offset:3px;border-radius:6px}
+.wrap{max-width:var(--maxw);margin:0 auto;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--font);font-weight:600;margin:0;text-wrap:balance}
+h1{letter-spacing:-.055em;line-height:1}
+h2{font-size:clamp(32px,4.6vw,48px);letter-spacing:-.045em;line-height:1.05}
+h3{font-size:18px;letter-spacing:-.02em;line-height:1.3}
+.label{font-family:var(--mono);font-size:12px;letter-spacing:.02em;text-transform:uppercase;color:var(--muted)}
 
 /* Nav */
-.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:rgba(8,9,10,.94);border-bottom:1px solid var(--line)}
-.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:60px}
-.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:600;letter-spacing:-.01em}
-.brand svg{flex:none}
-.nav-links{display:flex;gap:28px;font-size:14px;color:var(--muted)}
-.nav-links a{text-decoration:none;transition:color .15s}
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:rgba(0,0,0,.92);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:28px;height:64px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:18px;letter-spacing:-.03em;text-decoration:none;margin-right:auto}
+.brand i{width:16px;height:16px;border:1.5px solid var(--fg);border-radius:3px;position:relative}
+.brand i::after{content:"";position:absolute;left:3px;right:3px;bottom:3px;height:1.5px;background:var(--fg)}
+.nav-links{display:flex;gap:24px;font-size:14px}
+.nav-links a{text-decoration:none;color:var(--muted);transition:color .15s}
 .nav-links a:hover{color:var(--fg)}
-.btn{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 14px;border-radius:8px;font-size:14px;font-weight:500;text-decoration:none;border:1px solid var(--line-strong);background:rgba(255,255,255,.03);color:var(--fg);transition:background .15s,border-color .15s;cursor:pointer;font-family:inherit}
-.btn:hover{background:rgba(255,255,255,.07)}
-.btn.primary{background:var(--fg);color:var(--bg);border-color:var(--fg)}
-.btn.primary:hover{background:#fff}
-@media (max-width:720px){.nav-links{display:none}}
+@media (max-width:760px){.nav-links{display:none}}
 
-/* Hero */
-.hero{position:relative;padding-block:120px 72px;overflow:hidden}
-.hero::before{content:"";position:absolute;left:50%;top:-30%;width:1100px;height:700px;transform:translateX(-50%);background:radial-gradient(closest-side,rgba(245,166,35,.16),rgba(245,166,35,.04) 55%,transparent);pointer-events:none}
-.hero::after{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse 60% 70% at 50% 20%,#000 20%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse 60% 70% at 50% 20%,#000 20%,transparent 75%);opacity:.5;pointer-events:none}
-.hero .wrap{position:relative;z-index:1;display:flex;flex-direction:column;align-items:flex-start;gap:28px}
-.pill{display:inline-flex;align-items:center;gap:10px;padding:5px 12px 5px 6px;border:1px solid var(--line-strong);border-radius:999px;font-size:13px;color:var(--muted);background:rgba(255,255,255,.02)}
-.pill b{font-weight:500;color:var(--bg);background:var(--amber);border-radius:999px;padding:1px 8px;font-size:12px}
-h1{font-family:var(--font-display);font-weight:500;font-size:clamp(44px,8vw,88px);line-height:1.02;letter-spacing:-.045em;margin:0;max-width:13ch;text-wrap:balance;background:linear-gradient(180deg,#fff 30%,#9aa0a8);-webkit-background-clip:text;background-clip:text;color:transparent}
-.lede{font-size:clamp(17px,2vw,20px);color:var(--muted);max-width:52ch;margin:0;line-height:1.55}
-.lede strong{color:var(--fg);font-weight:500}
-.cta-row{display:flex;flex-wrap:wrap;gap:12px}
-.scroll-hint{display:flex;align-items:center;gap:10px;margin-top:24px}
-.scroll-hint i{display:block;width:1px;height:32px;background:linear-gradient(var(--amber),transparent);animation:drip 2.2s ease-in-out infinite}
-@keyframes drip{0%{transform:scaleY(.2);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}100%{transform:scaleY(.2);transform-origin:bottom}}
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;height:40px;padding:0 18px;border-radius:999px;font-size:14px;font-weight:500;text-decoration:none;background:var(--fg);color:#000;border:1px solid var(--fg);transition:background .15s,border-color .15s;white-space:nowrap}
+.btn:hover{background:#fff}
+.btn.ghost{background:#000;color:var(--fg);border-color:#333}
+.btn.ghost:hover{background:#111;border-color:#444}
+.btn.sm{height:32px;padding:0 14px;font-size:13px}
+.cta-row{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
 
 /* Hero overlay inside the scene */
-.hero-ov{position:absolute;inset:0;display:flex;align-items:center;z-index:3;pointer-events:none;background:linear-gradient(90deg,rgba(8,9,10,.85) 0%,rgba(8,9,10,.55) 38%,transparent 62%)}
+.hero-ov{position:absolute;inset:0;display:flex;align-items:center;z-index:3;pointer-events:none;background:linear-gradient(90deg,rgba(0,0,0,.92) 0%,rgba(0,0,0,.65) 36%,transparent 62%)}
 .hero-ov .wrap{width:100%;display:flex;flex-direction:column;align-items:flex-start;gap:24px}
 .hero-ov a{pointer-events:auto}
-.hero-ov h1{font-size:clamp(40px,6.4vw,80px)}
-.hero-ov .lede{max-width:40ch}
+.hero-ov h1{font-size:clamp(48px,7vw,88px);max-width:10ch}
+.lede{font-size:clamp(17px,1.6vw,20px);color:var(--muted);max-width:36ch;margin:0}
+.lede strong{color:var(--fg);font-weight:500}
 @media (max-aspect-ratio:19/20){
-  /* portrait: machine sits in the top half, text below it on a dark field */
-  .hero-ov{align-items:flex-end;padding-bottom:calc(env(safe-area-inset-bottom,0px) + 84px);background:linear-gradient(180deg,transparent 0%,transparent 44%,rgba(8,9,10,.9) 56%,#08090a 64%)}
-  .hero-ov .wrap{gap:14px}
-  .hero-ov h1{font-size:clamp(34px,9.5vw,52px)}
-  .hero-ov .lede{font-size:15px}
+  /* portrait: machine sits in the top half, text below it on a black field */
+  .hero-ov{align-items:flex-end;padding-bottom:calc(env(safe-area-inset-bottom,0px) + 84px);background:linear-gradient(180deg,transparent 0%,transparent 44%,rgba(0,0,0,.9) 56%,#000 64%)}
+  .hero-ov .wrap{gap:16px}
+  .hero-ov h1{font-size:clamp(40px,12vw,60px)}
+  .lede{font-size:16px}
   .stage #poster{height:54%}
-  .hero-ov .scroll-hint{display:none}
 }
+
 /* Scroll scene */
 .scene{position:relative;height:520vh}
-.stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:radial-gradient(ellipse 80% 60% at 60% 60%,#101114,var(--bg) 70%)}
-.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:var(--bg)}
 .stage canvas,.stage #poster{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none}
 .stage #poster{object-fit:cover;object-position:62% 50%;transition:opacity .3s}
-.ln{fill:none;stroke:url(#lineGrad);stroke-width:calc(var(--sw,1) * .95);stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1 1;stroke-dashoffset:1;opacity:.75}
-.ln.constr{opacity:.22;stroke-width:calc(var(--sw,1) * .7)}
-.ln.halo{stroke-width:calc(var(--sw,1) * 4);opacity:.08}
-.ln.ui{stroke:#f5a623;stroke-width:calc(var(--sw,1) * 1.1);opacity:.85}
-.ln.mach{stroke:#eef0f3;stroke-width:calc(var(--sw,1) * 1.9);opacity:1}
-.ln.amber{stroke:var(--amber)}
-.ln.dim{stroke:var(--amber);opacity:.9;stroke-width:calc(var(--sw,1) * 1.4)}
-.ln.amber{stroke-width:calc(var(--sw,1) * 1.6)}
-.ghost path{fill:none;stroke:url(#lineGrad);stroke-width:var(--sw,1);opacity:.05}
-.svg-label{font-family:var(--font-mono);fill:var(--fg);letter-spacing:.04em}
-.svg-dim{font-family:var(--font-mono);fill:var(--amber);letter-spacing:.04em}
-.captions{position:absolute;left:0;right:0;bottom:0;padding-bottom:max(36px,env(safe-area-inset-bottom,0px));pointer-events:none}
+.captions{position:absolute;left:0;right:0;bottom:0;padding-bottom:max(40px,env(safe-area-inset-bottom,0px));pointer-events:none}
 .captions .wrap{display:grid}
-.cap{grid-area:1/1;max-width:380px;opacity:0;transform:translateY(8px);transition:opacity .4s,transform .4s}
+.cap{grid-area:1/1;max-width:400px;opacity:0;transform:translateY(8px);transition:opacity .4s,transform .4s}
 .cap.on{opacity:1;transform:none}
-.cap .mono{color:var(--amber)}
-.cap h2{font-family:var(--font-display);font-weight:500;font-size:24px;letter-spacing:-.02em;margin:8px 0 6px;line-height:1.2}
+.cap h2{font-size:clamp(26px,3vw,32px);margin:10px 0 8px}
 .cap p{margin:0;color:var(--muted);font-size:15px}
-.cap-bg{position:absolute;inset:auto 0 0 0;height:46%;background:linear-gradient(transparent,rgba(8,9,10,.92) 60%);pointer-events:none}
-.progress{position:absolute;top:calc(env(safe-area-inset-top,0px) + 84px);right:max(20px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:8px;align-items:flex-end}
-.progress span{display:block;width:22px;height:2px;border-radius:2px;background:var(--line-strong);transition:background .3s,width .3s}
-.progress span.on{background:var(--amber);width:34px}
+.cap-bg{position:absolute;inset:auto 0 0 0;height:46%;background:linear-gradient(transparent,rgba(0,0,0,.92) 62%);pointer-events:none}
+.progress{position:absolute;top:calc(env(safe-area-inset-top,0px) + 88px);right:max(24px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:6px;align-items:flex-end}
+.progress span{display:block;width:16px;height:1px;background:#444;transition:background .3s,width .3s}
+.progress span.on{background:var(--fg);width:28px}
 
-/* Sections */
-section.block{padding-block:120px;border-top:1px solid var(--line)}
-.sec-head{display:flex;flex-direction:column;gap:14px;margin-bottom:56px;max-width:640px}
-h2{font-family:var(--font-display);font-weight:500;font-size:clamp(32px,4.4vw,48px);line-height:1.08;letter-spacing:-.035em;margin:0;text-wrap:balance}
-.sec-head p{color:var(--muted);margin:0;font-size:17px;max-width:56ch}
+/* Framed page: one column with hairline sides; each section is a row in it,
+   with a crosshair where its top edge meets the frame. */
+.frame{max-width:var(--maxw);margin:0 auto;border-left:1px solid var(--line);border-right:1px solid var(--line)}
+.row{position:relative;border-top:1px solid var(--line)}
+.row::before,.row::after{content:"";position:absolute;top:-10px;width:19px;height:19px;z-index:2;
+  background:linear-gradient(var(--cross),var(--cross)) center/1px 100% no-repeat,linear-gradient(var(--cross),var(--cross)) center/100% 1px no-repeat}
+.row::before{left:-10px}.row::after{right:-10px}
+.pad{padding:clamp(56px,8vw,96px) clamp(24px,5vw,56px)}
+.head{display:flex;flex-direction:column;gap:14px;max-width:620px}
+.head p{margin:0;color:var(--muted);font-size:17px;max-width:52ch}
 
-.modules{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface)}
-.module{padding:28px;display:flex;flex-direction:column;gap:14px;min-width:0}
-.module+.module{border-left:1px solid var(--line)}
-.module svg{width:100%;height:150px;display:block}
-.module svg path,.module svg circle{fill:none;stroke:var(--sketch);stroke-width:1.3;stroke-linejoin:round;stroke-linecap:round}
-.module svg .a{stroke:var(--amber)}
-.module h3{margin:0;font-size:17px;font-weight:500;letter-spacing:-.01em}
-.module p{margin:0;color:var(--muted);font-size:15px}
-.op{font-family:var(--font-mono);color:var(--faint);font-size:20px;align-self:center}
+.cells{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--line)}
+.cell{padding:32px clamp(24px,3vw,32px) 40px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.cell+.cell{border-left:1px solid var(--line)}
+.cell p{margin:0;color:var(--muted);font-size:15px}
 
-.specs{margin-top:40px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--line)}
-.spec{padding:20px 0;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:4px;min-width:0;padding-right:16px}
-.spec dt{font-family:var(--font-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.spec dd{margin:0;font-size:17px;font-variant-numeric:tabular-nums}
+.cta{text-align:center;display:flex;flex-direction:column;align-items:center;gap:20px;background:radial-gradient(ellipse 60% 80% at 50% 120%,#161616,transparent 70%)}
+.cta h2{font-size:clamp(36px,5.6vw,64px);max-width:14ch}
+.cta p{margin:0;color:var(--muted);font-size:17px;max-width:44ch}
 
-.benefits{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px}
-.benefit{display:flex;flex-direction:column;gap:10px;min-width:0;padding-top:20px;border-top:1px solid var(--line-strong)}
-.benefit h3{margin:0;font-size:18px;font-weight:500;letter-spacing:-.01em}
-.benefit p{margin:0;color:var(--muted);font-size:15px}
-.benefit .icon{width:28px;height:28px;color:var(--amber)}
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.split>*+*{border-left:1px solid var(--line)}
+.contacts{display:flex;flex-direction:column}
+.contact{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:28px clamp(24px,3vw,40px);text-decoration:none;min-width:0;transition:background .15s;flex:1}
+.contact+.contact{border-top:1px solid var(--line)}
+.contact:hover{background:var(--bg2)}
+.contact .v{display:block;font-size:clamp(20px,2.4vw,26px);font-weight:500;letter-spacing:-.03em;overflow-wrap:anywhere;margin-top:6px}
+.contact .arr{font-family:var(--mono);color:var(--faint);transition:color .15s,transform .15s}
+.contact:hover .arr{color:var(--fg);transform:translateX(3px)}
 
-.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;counter-reset:s}
-.step{position:relative;padding:24px 24px 0 0;min-width:0}
-.step::before{counter-increment:s;content:"0" counter(s);font-family:var(--font-mono);font-size:12px;color:var(--amber);letter-spacing:.06em}
-.step::after{content:"";position:absolute;top:8px;left:36px;right:16px;height:1px;background:var(--line-strong)}
-.step:last-child::after{display:none}
-.step h3{margin:16px 0 6px;font-size:17px;font-weight:500}
-.step p{margin:0;color:var(--muted);font-size:15px}
-
-.contact{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:48px;align-items:end;padding:56px;border:1px solid var(--line);border-radius:18px;background:radial-gradient(ellipse 70% 120% at 100% 100%,var(--amber-soft),transparent 60%),var(--surface)}
-.contact h2{max-width:14ch}
-.contact-lines{display:flex;flex-direction:column;gap:14px}
-.cline{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border:1px solid var(--line-strong);border-radius:10px;background:rgba(0,0,0,.25);min-width:0}
-.cline span,.cline a{font-size:16px;user-select:all;overflow-wrap:anywhere}
-.copy{font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:none;border:1px solid var(--line-strong);border-radius:6px;padding:5px 8px;cursor:pointer;flex:none}
-.copy:hover{color:var(--fg)}
-
-.tip{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:40px;align-items:center}
-.tip-text{display:flex;flex-direction:column;gap:16px;align-items:flex-start}
-.tip-text p{color:var(--muted);margin:0;font-size:17px;max-width:46ch}
-.tip-art{width:100%;max-width:320px;justify-self:center}
-.tip-art .ring{fill:none;stroke:var(--line-strong);stroke-width:1}
-.tip-art .r1{stroke:var(--amber);opacity:.8}
-.tip-art .r2{stroke:var(--amber);opacity:.35}
-.tip-art .pin{fill:var(--surface);stroke:var(--fg);stroke-width:1.4;stroke-linejoin:round}
-.tip-art .pin-dot{fill:none;stroke:var(--amber);stroke-width:1.6}
-@media (max-width:860px){.tip{grid-template-columns:minmax(0,1fr)}.tip-art{max-width:220px}}
-footer{padding-block:48px 64px;border-top:1px solid var(--line);color:var(--faint);font-size:13px}
-footer .wrap{display:flex;flex-direction:column;gap:12px}
-footer .row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 40px;padding-block:28px 40px;color:var(--faint);font-size:13px}
+footer p{margin:0;max-width:70ch}
 
 @media (max-width:860px){
-  .modules{grid-template-columns:minmax(0,1fr)}
-  .module+.module{border-left:0;border-top:1px solid var(--line)}
-  .specs{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .benefits{grid-template-columns:minmax(0,1fr);gap:28px}
-  .steps{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:32px}
-  .step:nth-child(2)::after{display:none}
-  .contact{grid-template-columns:minmax(0,1fr);padding:32px 24px}
-  section.block{padding-block:88px}
-  .hero{padding-block:88px 56px}
+  .cells,.split{grid-template-columns:minmax(0,1fr)}
+  .cell+.cell,.split>*+*{border-left:0;border-top:1px solid var(--line)}
 }
-@media (max-width:480px){.specs{grid-template-columns:minmax(0,1fr)}.steps{grid-template-columns:minmax(0,1fr)}.step::after{display:none}}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.scroll-hint i{animation:none}.cap{transition:none}}
+@media (max-width:1120px){.frame{border-left:0;border-right:0}.row::before,.row::after{display:none}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.cap{transition:none}}
 </style>
-<style>body{margin:0}</style>
 </head>
 <body>
 
 <header class="nav">
   <div class="wrap">
-    <a class="brand" href="#top" aria-label="Packzuno, till början">
-      <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect x="5" y="1.5" width="12" height="13" rx="2.5" fill="none" stroke="#f5a623" stroke-width="1.6"/><rect x="5" y="15.5" width="12" height="5" rx="1" fill="none" stroke="#f4f5f6" stroke-width="1.6"/><path d="M8.5 11.5h5" stroke="#f4f5f6" stroke-width="1.6" stroke-linecap="round"/></svg>
-      Packzuno
-    </a>
+    <a class="brand" href="#top" aria-label="Packzuno, till början"><i aria-hidden="true"></i>Packzuno</a>
     <nav class="nav-links" aria-label="Huvudmeny">
-      <a href="#placering">Så funkar det</a>
-      <a href="#korten">Korten</a>
-      <a href="#platser">Hitta oss</a>
+      <a href="#korten">I automaten</a>
       <a href="#kopcentrum">För köpcentrum</a>
+      <a href="#kontakt">Kontakt</a>
     </nav>
-    <a class="btn primary" href="#platser">Tipsa om en plats</a>
+    <a class="btn sm" href="#platser">Tipsa om en plats</a>
   </div>
 </header>
 
@@ -255,119 +197,70 @@ footer .row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
       <canvas id="seq" role="img" aria-label="En Packzuno-automat rullas genom ett köpcentrum och ställs på plats vid en butiksvägg"></canvas>
       <div class="hero-ov" id="heroOv">
         <div class="wrap">
-          <span class="pill"><b>Snart</b> Pokémon-kort i köpcentrum nära dig</span>
           <h1>Samlarkort, mitt i stråket.</h1>
-          <p class="lede">Packzuno har <strong>Pokémon-kort</strong> i automater där du redan handlar. Boosterpaket och samlarkort, när centrumet är öppet.</p>
+          <p class="lede">Automater med <strong>Pokémon-kort</strong> i svenska köpcentrum. Öppna lika länge som centrumet.</p>
           <div class="cta-row">
-            <a class="btn primary" href="#korten">Se vad som finns</a>
-            <a class="btn" href="#platser">Tipsa om en plats</a>
+            <a class="btn" href="#platser">Tipsa om ett köpcentrum</a>
+            <a class="btn ghost" href="#korten">Vad finns i automaten</a>
           </div>
-          <div class="scroll-hint mono"><i></i>Scrolla så placerar vi den</div>
         </div>
       </div>
       <div class="cap-bg"></div>
       <div class="progress" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
       <div class="captions">
         <div class="wrap">
-          <div class="cap" data-cap="0"><div class="mono">01</div><h2>Där du redan handlar</h2><p>Vid entrén, rulltrappan eller på vägen mellan butikerna.</p></div>
-          <div class="cap" data-cap="1"><div class="mono">02</div><h2>Automaten ställs på plats</h2><p>En liten yta längs stråket räcker.</p></div>
-          <div class="cap" data-cap="2"><div class="mono">03</div><h2>Fylld med samlarkort</h2><p>Boosterpaket och nya släpp, påfyllt löpande.</p></div>
-          <div class="cap" data-cap="3"><div class="mono">04</div><h2>Öppet när centrumet är öppet</h2><p>Välj, betala och ta med dig korten direkt.</p></div>
+          <div class="cap" data-cap="0"><div class="label">01 / 04</div><h2>Där du redan handlar</h2><p>Vid entrén, rulltrappan eller mellan två butiker.</p></div>
+          <div class="cap" data-cap="1"><div class="label">02 / 04</div><h2>Mot en vägg</h2><p>Automaten tar mindre plats än en bänk.</p></div>
+          <div class="cap" data-cap="2"><div class="label">03 / 04</div><h2>Fylld med kort</h2><p>Boosterpaket ur aktuella serier, påfyllda löpande.</p></div>
+          <div class="cap" data-cap="3"><div class="label">04 / 04</div><h2>Välj, betala, öppna</h2><p>Öppet så länge centrumet har öppet.</p></div>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="block" id="korten">
-    <div class="wrap">
-      <div class="sec-head">
-        <span class="mono">Korten</span>
-        <h2>Det är korten det handlar om.</h2>
-        <p>Vi fyller automaterna med det samlare letar efter, från enstaka boosterpaket till nya släpp.</p>
-      </div>
-      <div class="modules">
-        <div class="module">
-          <svg viewBox="0 0 200 150" aria-hidden="true"><path d="M82 22h36a4 4 0 0 1 4 4v100a4 4 0 0 1-4 4H82a4 4 0 0 1-4-4V26a4 4 0 0 1 4-4z"/><path d="M78 34l4-4 4 4 4-4 4 4 4-4 4 4 4-4 4 4 4-4 4 4 4-4 4 4" opacity=".6"/><path class="a" d="M88 60h24v40H88z"/></svg>
-          <h3>Boosterpaket</h3>
-          <p>Förseglade paket ur aktuella serier.</p>
-        </div>
-        <div class="module">
-          <svg viewBox="0 0 200 150" aria-hidden="true"><path d="M70 40h44a4 4 0 0 1 4 4v80a4 4 0 0 1-4 4H70a4 4 0 0 1-4-4V44a4 4 0 0 1 4-4z" transform="rotate(-8 92 84)"/><path d="M86 30h44a4 4 0 0 1 4 4v80a4 4 0 0 1-4 4H86a4 4 0 0 1-4-4V34a4 4 0 0 1 4-4z"/><path class="a" d="M90 38h36v40H90z"/><path d="M90 86h36M90 94h24" opacity=".6"/></svg>
-          <h3>Nya släpp</h3>
-          <p>Nya serier i automaterna <span class="ph" title="Platshållare">samma dag som de släpps</span>.</p>
-        </div>
-        <div class="module">
-          <svg viewBox="0 0 200 150" aria-hidden="true"><path d="M64 52h72v66H64z"/><path d="M64 52l10-14h52l10 14"/><path d="M74 38v14M126 38v14" opacity=".5"/><path class="a" d="M86 76h28v24H86z"/></svg>
-          <h3>Större köp</h3>
-          <p><span class="ph" title="Platshållare, bekräfta sortiment">Boxar och presentförpackningar</span> för den som vill ha mer.</p>
-        </div>
-      </div>
-      <div class="benefits" style="margin-top:56px">
-        <div class="benefit"><h3>Äkta och förseglat</h3><p>Allt kommer direkt från <span class="ph" title="Platshållare">officiella distributörer</span>.</p></div>
-        <div class="benefit"><h3>Fylls på löpande</h3><p>Vi ser vad som tar slut och fyller på innan hyllan står tom.</p></div>
-        <div class="benefit"><h3>Betala som du vill</h3><p><span class="ph" title="Platshållare">Kort, mobil och Swish</span>.</p></div>
-      </div>
+  <div class="frame">
+  <section class="row" id="korten">
+    <div class="pad head">
+      <span class="label">I automaten</span>
+      <h2>Förseglade kort. Inget annat.</h2>
+      <p>Varje automat är fylld med Pokémon-kort ur de serier samlare letar efter just nu.</p>
+    </div>
+    <div class="cells">
+      <div class="cell"><h3>Boosterpaket</h3><p>Förseglade paket ur aktuella serier.</p></div>
+      <div class="cell"><h3>Nya serier</h3><p>När en ny serie kommer ut tar vi in den i automaterna.</p></div>
+      <div class="cell"><h3>Påfyllt löpande</h3><p>Vi ser vad som tar slut och fyller på innan facket står tomt.</p></div>
     </div>
   </section>
 
-  <section class="block" id="platser">
-    <div class="wrap">
-      <div class="tip">
-        <div class="tip-text">
-          <span class="mono">Hitta oss</span>
-          <h2>Var vill du ha en Packzuno?</h2>
-          <p>Vi väljer de första platserna nu. Skicka namnet på ditt köpcentrum, så tar vi med det när vi pratar med centrumen.</p>
-          <div class="cta-row">
-            <a class="btn primary" href="mailto:ludwig@ljrydin.se?subject=Tips%20p%C3%A5%20k%C3%B6pcentrum&amp;body=Jag%20vill%20ha%20en%20Packzuno%20i%20">Tipsa via mejl</a>
-            <a class="btn" href="#kontakt">Andra sätt att nå oss</a>
-          </div>
-        </div>
-        <svg class="tip-art" viewBox="0 0 240 200" aria-hidden="true">
-          <ellipse cx="120" cy="164" rx="96" ry="22" class="ring r3"/>
-          <ellipse cx="120" cy="164" rx="62" ry="14" class="ring r2"/>
-          <ellipse cx="120" cy="164" rx="30" ry="7" class="ring r1"/>
-          <path d="M120 160c-26-34-40-56-40-78a40 40 0 0 1 80 0c0 22-14 44-40 78z" class="pin"/>
-          <circle cx="120" cy="82" r="14" class="pin-dot"/>
-        </svg>
-      </div>
+  <section class="row pad cta" id="platser">
+    <span class="label">Tipsa oss</span>
+    <h2>Var ska nästa automat stå?</h2>
+    <p>Vi väljer de första köpcentrumen nu. Mejla namnet på ditt, så tar vi med det på listan.</p>
+    <a class="btn" href="mailto:ludwig@ljrydin.se?subject=Tips%20p%C3%A5%20k%C3%B6pcentrum&amp;body=Jag%20vill%20ha%20en%20Packzuno%20i%20">Mejla ett tips</a>
+  </section>
+
+  <section class="row split" id="kopcentrum">
+    <div class="pad head">
+      <span class="label">För köpcentrum</span>
+      <h2>Har ni en kvadratmeter över?</h2>
+      <p>Automaten står mot en vägg. Vi sköter påfyllning och service, ni ger oss en plats.</p>
+    </div>
+    <div class="contacts" id="kontakt">
+      <a class="contact" href="mailto:ludwig@ljrydin.se"><span><span class="label">Mejl</span><span class="v">ludwig@ljrydin.se</span></span><span class="arr" aria-hidden="true">→</span></a>
+      <a class="contact" href="tel:+46736455665"><span><span class="label">Telefon</span><span class="v">073-645 56 65</span></span><span class="arr" aria-hidden="true">→</span></a>
     </div>
   </section>
 
-  <section class="block" id="kopcentrum">
+  <footer class="row">
     <div class="wrap">
-      <div class="sec-head">
-        <span class="mono">För köpcentrum</span>
-        <h2>Har ni en yta över?</h2>
-        <p>Samlare kommer för nya släpp och familjer stannar till på vägen. Vi sköter allt, ni behöver bara en liten yta.</p>
-      </div>
-      <a class="btn" href="#kontakt">Kontakta oss</a>
+      <span>© 2026 Packzuno AB</span>
+      <p>Pokémon är ett varumärke som tillhör Nintendo, Creatures Inc. och GAME FREAK inc. Packzuno är inte knutet till eller godkänt av dessa bolag.</p>
     </div>
-  </section>
-
-  
-  <section class="block" id="kontakt">
-    <div class="wrap">
-      <div class="contact">
-        <div class="sec-head" style="margin:0">
-          <span class="mono">Kontakt</span>
-          <h2>Hör av dig.</h2>
-          <p>Frågor om korten, eller en yta i ert köpcentrum. Vi svarar inom en arbetsdag.</p>
-        </div>
-        <div class="contact-lines">
-          <div class="cline"><a id="mail" href="mailto:ludwig@ljrydin.se">ludwig@ljrydin.se</a><button class="copy" type="button" data-copy="mail">Kopiera</button></div>
-          <div class="cline"><a id="tel" href="tel:+46736455665">073-645 56 65</a><button class="copy" type="button" data-copy="tel">Kopiera</button></div>
-        </div>
-      </div>
-    </div>
-  </section>
+  </footer>
+</div>
 </main>
 
-<footer>
-  <div class="wrap">
-    <div class="row"><span>© 2026 Packzuno AB</span><span>Streckade uppgifter är platshållare.</span></div>
-    <div>Pokémon är ett varumärke som tillhör Nintendo, Creatures Inc. och GAME FREAK inc. Packzuno är inte knutet till eller godkänt av dessa bolag.</div>
-  </div>
-</footer>
+
 
 <script>
 (function(){
@@ -416,9 +309,9 @@ footer .row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
     const k=portrait()?1-seg(P,.02,.12):0,top=0,vh=ch*(1-k*.46);
     const sc=Math.max(cw/iw,vh/ih),dw=iw*sc,dh=ih*sc;
     const fx=focus(P),dx=Math.min(0,Math.max(cw-dw,cw/2-dw*fx)),dy=top+(vh-dh)/2;
-    if(k>0){ctx.fillStyle="#08090a";ctx.fillRect(0,0,cw,ch);}
+    if(k>0){ctx.fillStyle="#000";ctx.fillRect(0,0,cw,ch);}
     ctx.drawImage(im,dx,dy,dw,dh);poster.style.opacity=0;
-    if(k>0){const g=ctx.createLinearGradient(0,dy+dh*.8,0,dy+dh);g.addColorStop(0,"rgba(8,9,10,0)");g.addColorStop(1,"#08090a");ctx.fillStyle=g;ctx.fillRect(0,dy+dh*.8,cw,dh*.2+1);}
+    if(k>0){const g=ctx.createLinearGradient(0,dy+dh*.8,0,dy+dh);g.addColorStop(0,"rgba(0,0,0,0)");g.addColorStop(1,"#000");ctx.fillStyle=g;ctx.fillRect(0,dy+dh*.8,cw,dh*.2+1);}
   }
   function render(p){
     P=p;const w=Math.round(p*(N-1));if(w!==want){dir=w>want?1:-1;want=w;pump();}draw();
@@ -433,13 +326,6 @@ footer .row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
   size();addEventListener("resize",()=>{size();onScroll();});addEventListener("scroll",onScroll,{passive:true});
   pump();render(reduce?0:progress());
 
-  // copy buttons
-  document.querySelectorAll(".copy").forEach(b=>b.addEventListener("click",()=>{
-    const el=document.getElementById(b.dataset.copy);const txt=el.textContent.trim();
-    const done=()=>{b.textContent="Kopierat";setTimeout(()=>b.textContent="Kopiera",1600);};
-    try{navigator.clipboard.writeText(txt).then(done,()=>{sel(el);});}catch(e){sel(el);}
-  }));
-  function sel(el){const r=document.createRange();r.selectNodeContents(el);const s=getSelection();s.removeAllRanges();s.addRange(r);}
 })();
 </script>
 </body>
