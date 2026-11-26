@@ -128,7 +128,7 @@ h3{font-size:18px;letter-spacing:-.02em;line-height:1.3}
 .captions .wrap{display:grid}
 .cap{grid-area:1/1;max-width:400px;opacity:0;transform:translateY(8px);transition:opacity .4s,transform .4s}
 .cap.on{opacity:1;transform:none}
-.cap h2{font-size:clamp(26px,3vw,32px);margin:10px 0 8px}
+.cap h2{font-size:clamp(26px,3vw,32px);margin:0 0 8px}
 .cap p{margin:0;color:var(--muted);font-size:15px}
 .cap-bg{position:absolute;inset:auto 0 0 0;height:46%;background:linear-gradient(transparent,rgba(0,0,0,.92) 62%);pointer-events:none}
 .progress{position:absolute;top:calc(env(safe-area-inset-top,0px) + 88px);right:max(24px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:6px;align-items:flex-end}
@@ -161,7 +161,7 @@ h3{font-size:18px;letter-spacing:-.02em;line-height:1.3}
 .contact{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:28px clamp(24px,3vw,40px);text-decoration:none;min-width:0;transition:background .15s;flex:1}
 .contact+.contact{border-top:1px solid var(--line)}
 .contact:hover{background:var(--bg2)}
-.contact .v{display:block;font-size:clamp(20px,2.4vw,26px);font-weight:500;letter-spacing:-.03em;overflow-wrap:anywhere;margin-top:6px}
+.contact .v{display:block;font-size:clamp(20px,2.4vw,26px);font-weight:500;letter-spacing:-.03em;overflow-wrap:anywhere}
 .contact .arr{font-family:var(--mono);color:var(--faint);transition:color .15s,transform .15s}
 .contact:hover .arr{color:var(--fg);transform:translateX(3px)}
 
@@ -209,10 +209,10 @@ footer p{margin:0;max-width:70ch}
       <div class="progress" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
       <div class="captions">
         <div class="wrap">
-          <div class="cap" data-cap="0"><div class="label">01 / 04</div><h2>Där du redan handlar</h2><p>Vid entrén, rulltrappan eller mellan två butiker.</p></div>
-          <div class="cap" data-cap="1"><div class="label">02 / 04</div><h2>Mot en vägg</h2><p>Automaten tar mindre plats än en bänk.</p></div>
-          <div class="cap" data-cap="2"><div class="label">03 / 04</div><h2>Fylld med kort</h2><p>Boosterpaket ur aktuella serier, påfyllda löpande.</p></div>
-          <div class="cap" data-cap="3"><div class="label">04 / 04</div><h2>Välj, betala, öppna</h2><p>Öppet så länge centrumet har öppet.</p></div>
+          <div class="cap" data-cap="0"><h2>Där du redan handlar</h2><p>Vid entrén, rulltrappan eller mellan två butiker.</p></div>
+          <div class="cap" data-cap="1"><h2>Mot en vägg</h2><p>Automaten tar mindre plats än en bänk.</p></div>
+          <div class="cap" data-cap="2"><h2>Fylld med kort</h2><p>Boosterpaket ur aktuella serier, påfyllda löpande.</p></div>
+          <div class="cap" data-cap="3"><h2>Välj, betala, öppna</h2><p>Öppet så länge centrumet har öppet.</p></div>
         </div>
       </div>
     </div>
@@ -221,7 +221,6 @@ footer p{margin:0;max-width:70ch}
   <div class="frame">
   <section class="row" id="korten">
     <div class="pad head">
-      <span class="label">I automaten</span>
       <h2>Förseglade kort. Inget annat.</h2>
       <p>Varje automat är fylld med Pokémon-kort ur de serier samlare letar efter just nu.</p>
     </div>
@@ -233,7 +232,6 @@ footer p{margin:0;max-width:70ch}
   </section>
 
   <section class="row pad cta" id="platser">
-    <span class="label">Tipsa oss</span>
     <h2>Var ska nästa automat stå?</h2>
     <p>Vi väljer de första köpcentrumen nu. Mejla namnet på ditt, så tar vi med det på listan.</p>
     <a class="btn" href="mailto:ludwig@ljrydin.se?subject=Tips%20p%C3%A5%20k%C3%B6pcentrum&amp;body=Jag%20vill%20ha%20en%20Packzuno%20i%20">Mejla ett tips</a>
@@ -241,13 +239,12 @@ footer p{margin:0;max-width:70ch}
 
   <section class="row split" id="kopcentrum">
     <div class="pad head">
-      <span class="label">För köpcentrum</span>
       <h2>Har ni en kvadratmeter över?</h2>
       <p>Automaten står mot en vägg. Vi sköter påfyllning och service, ni ger oss en plats.</p>
     </div>
     <div class="contacts" id="kontakt">
-      <a class="contact" href="mailto:ludwig@ljrydin.se"><span><span class="label">Mejl</span><span class="v">ludwig@ljrydin.se</span></span><span class="arr" aria-hidden="true">→</span></a>
-      <a class="contact" href="tel:+46736455665"><span><span class="label">Telefon</span><span class="v">073-645 56 65</span></span><span class="arr" aria-hidden="true">→</span></a>
+      <a class="contact" href="mailto:ludwig@ljrydin.se"><span><span class="v">ludwig@ljrydin.se</span></span><span class="arr" aria-hidden="true">→</span></a>
+      <a class="contact" href="tel:+46736455665"><span><span class="v">073-645 56 65</span></span><span class="arr" aria-hidden="true">→</span></a>
     </div>
   </section>
 
@@ -283,7 +280,7 @@ footer p{margin:0;max-width:70ch}
     busy.add(i);
     getBlob(i).then(b=>createImageBitmap(b)).then(bm=>{
       busy.delete(i);
-      if(Math.abs(i-want)>WIN+4){bm.close&&bm.close();}else{bmps.set(i,bm);if(Math.abs(i-want)<3){drawn=-1;draw();}}
+      if(Math.abs(i-want)>WIN+4){bm.close&&bm.close();}else{bmps.set(i,bm);if(Math.abs(i-want)<3){sig="";draw();}}
       pump();
     },()=>{busy.delete(i);blobs[i]=null;});
   }
@@ -296,34 +293,54 @@ footer p{margin:0;max-width:70ch}
   for(let i=0;i<N;i+=6)getBlob(i);
   const fill=()=>{for(let i=0;i<N;i++)getBlob(i);};
   if("requestIdleCallback" in window)requestIdleCallback(fill,{timeout:1500});else setTimeout(fill,600);
-  // the renders are 1280x720, so a 1x backing store is already sharper than the source
-  function size(){W=stage.clientWidth;H=stage.clientHeight;cv.width=W;cv.height=H;drawn=-1;}
+  // Size the canvas so a frame is drawn 1:1 (no per-frame resampling); CSS stretches the canvas
+  // on the GPU instead, which costs nothing.
+  function size(){W=stage.clientWidth;H=stage.clientHeight;const bs=Math.min(devicePixelRatio||1,1/Math.max(W/1280,H/720));cv.width=Math.round(W*bs);cv.height=Math.round(H*bs);}
   // where the machine sits in each part of the film, so narrow screens crop around it
   const focus=p=>p<.42?.62-.12*seg(p,.1,.42):p<.72?.5+.12*seg(p,.42,.72):.62-.17*seg(p,.72,1);
   const portrait=()=>H>W*1.05;
   function nearestLoaded(i){if(bmps.has(i))return i;let best=-1,bd=1e9;for(const j of bmps.keys()){const d=Math.abs(j-i);if(d<bd){bd=d;best=j;}}return best;}
+  let sig="";
   function draw(){
-    const j=nearestLoaded(want);if(j<0||(j===drawn&&!(portrait()&&P<.13)))return;drawn=j;
+    const f=P*(N-1),i=Math.floor(f),a=f-i;
+    const j=nearestLoaded(i);if(j<0)return;
+    const nx=j===i&&a>.01&&bmps.has(i+1)?i+1:-1;
+    const k=portrait()?1-seg(P,.02,.12):0;
+    const s2=j+"|"+nx+"|"+(nx<0?0:a.toFixed(2))+"|"+k.toFixed(3)+"|"+cv.width;if(s2===sig)return;sig=s2;
     const im=bmps.get(j),iw=im.width,ih=im.height,cw=cv.width,ch=cv.height;
     // portrait hero: shrink the film into the top half so the headline gets its own space below
-    const k=portrait()?1-seg(P,.02,.12):0,top=0,vh=ch*(1-k*.46);
+    const vh=ch*(1-k*.46);
     const sc=Math.max(cw/iw,vh/ih),dw=iw*sc,dh=ih*sc;
-    const fx=focus(P),dx=Math.min(0,Math.max(cw-dw,cw/2-dw*fx)),dy=top+(vh-dh)/2;
+    const fx=focus(P),dx=Math.min(0,Math.max(cw-dw,cw/2-dw*fx)),dy=(vh-dh)/2;
     if(k>0){ctx.fillStyle="#000";ctx.fillRect(0,0,cw,ch);}
-    ctx.drawImage(im,dx,dy,dw,dh);poster.style.opacity=0;
+    ctx.drawImage(im,dx,dy,dw,dh);
+    // blend toward the next frame so the motion reads as continuous between renders
+    if(nx>=0){ctx.globalAlpha=a;ctx.drawImage(bmps.get(nx),dx,dy,dw,dh);ctx.globalAlpha=1;}
+    poster.style.opacity=0;
     if(k>0){const g=ctx.createLinearGradient(0,dy+dh*.8,0,dy+dh);g.addColorStop(0,"rgba(0,0,0,0)");g.addColorStop(1,"#000");ctx.fillStyle=g;ctx.fillRect(0,dy+dh*.8,cw,dh*.2+1);}
   }
+  let lastHo="",lastStep=-2;
   function render(p){
     P=p;const w=Math.round(p*(N-1));if(w!==want){dir=w>want?1:-1;want=w;pump();}draw();
-    heroOv.style.opacity=(1-seg(p,.02,.1)).toFixed(3);heroOv.style.visibility=p>.1?"hidden":"visible";
+    const ho=(1-seg(p,.02,.1)).toFixed(2);
+    if(ho!==lastHo){lastHo=ho;heroOv.style.opacity=ho;heroOv.style.visibility=p>.1?"hidden":"visible";}
     const step=p<.1?-1:p<.42?0:p<.72?1:p<.88?2:3;
-    caps.forEach((c,i)=>c.classList.toggle("on",i===step));
-    dots.forEach((d,i)=>d.classList.toggle("on",i<=step));
+    if(step!==lastStep){lastStep=step;caps.forEach((c,i)=>c.classList.toggle("on",i===step));dots.forEach((d,i)=>d.classList.toggle("on",i<=step));}
   }
   function progress(){const r=scene.getBoundingClientRect();return clamp(-r.top/Math.max(1,r.height-innerHeight));}
-  let ticking=false;
-  function onScroll(){if(ticking)return;ticking=true;requestAnimationFrame(()=>{ticking=false;render(reduce?0:progress());});}
-  size();addEventListener("resize",()=>{size();onScroll();});addEventListener("scroll",onScroll,{passive:true});
+  // The film follows the scrollbar with a short ease instead of jumping with every wheel tick.
+  let target=0,cur=0,last=0,running=false;
+  function tick(now){
+    const dt=Math.min(64,now-(last||now));last=now;
+    cur+=(target-cur)*(1-Math.exp(-dt/110));
+    if(Math.abs(target-cur)<.0004)cur=target;
+    render(cur);
+    if(cur!==target)requestAnimationFrame(tick);else{running=false;last=0;}
+  }
+  function onScroll(){target=reduce?0:progress();if(!running){running=true;requestAnimationFrame(tick);}}
+  function resized(){size();sig="";onScroll();}
+  size();addEventListener("resize",resized);addEventListener("scroll",onScroll,{passive:true});
+  target=cur=reduce?0:progress();
   pump();render(reduce?0:progress());
 
 })();
