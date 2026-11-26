@@ -85,7 +85,7 @@ a{color:inherit}
 .ph{border-bottom:1px dashed var(--amber);cursor:help}
 
 /* Nav */
-.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:rgba(8,9,10,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:rgba(8,9,10,.94);border-bottom:1px solid var(--line)}
 .nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:60px}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:600;letter-spacing:-.01em}
 .brand svg{flex:none}
@@ -373,27 +373,45 @@ footer .row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 (function(){
   /* ---------- scroll-scrubbed 3D render (Blender, 90 frames) ---------- */
   const N=90,scene=document.querySelector(".scene"),stage=document.querySelector(".stage");
-  const cv=document.getElementById("seq"),ctx=cv.getContext("2d"),poster=document.getElementById("poster");
+  const cv=document.getElementById("seq"),ctx=cv.getContext("2d",{alpha:false}),poster=document.getElementById("poster");
   const caps=[...document.querySelectorAll(".cap")],dots=[...document.querySelectorAll(".progress span")];
   const heroOv=document.getElementById("heroOv");
   const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v)),seg=(p,a,b)=>clamp((p-a)/(b-a));
   const reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const frames=new Array(N);let drawn=-1,W=0,H=0;
+  let drawn=-1,W=0,H=0,want=0,P=0,dir=1;
   const src=i=>`seq/f${String(i).padStart(3,"0")}.webp`;
-  function load(i){if(frames[i])return frames[i];const im=new Image();im.decoding="async";im.src=src(i);im.onload=()=>{if(Math.abs(i-want)<2){drawn=-1;draw();}};frames[i]=im;return im;}
-  // load every 6th frame first so scrubbing works early, then fill the gaps
-  for(let i=0;i<N;i+=6)load(i);
-  const fill=()=>{for(let i=0;i<N;i++)load(i);};
+  // Frames are fetched once (compressed, ~4.6 MB) and decoded off the main thread into
+  // ImageBitmaps. Only a window around the current frame stays decoded, so memory stays low
+  // and drawing never has to decode synchronously while you scroll.
+  const blobs=new Array(N),bmps=new Map(),busy=new Set(),WIN=20;
+  const getBlob=i=>blobs[i]||(blobs[i]=fetch(src(i)).then(r=>r.ok?r.blob():Promise.reject(r.status)));
+  function ensure(i){
+    if(i<0||i>=N||bmps.has(i)||busy.has(i)||busy.size>=4)return;
+    busy.add(i);
+    getBlob(i).then(b=>createImageBitmap(b)).then(bm=>{
+      busy.delete(i);
+      if(Math.abs(i-want)>WIN+4){bm.close&&bm.close();}else{bmps.set(i,bm);if(Math.abs(i-want)<3){drawn=-1;draw();}}
+      pump();
+    },()=>{busy.delete(i);blobs[i]=null;});
+  }
+  function pump(){
+    for(const [i,bm] of bmps)if(Math.abs(i-want)>WIN){bm.close&&bm.close();bmps.delete(i);}
+    ensure(want);
+    for(let k=1;k<=WIN&&busy.size<4;k++){ensure(want+dir*k);if(k<=WIN/3)ensure(want-dir*k);}
+  }
+  // fetch every 6th frame first so fast scrubbing has something to show, then the rest
+  for(let i=0;i<N;i+=6)getBlob(i);
+  const fill=()=>{for(let i=0;i<N;i++)getBlob(i);};
   if("requestIdleCallback" in window)requestIdleCallback(fill,{timeout:1500});else setTimeout(fill,600);
-  function size(){const d=Math.min(2,devicePixelRatio||1);W=stage.clientWidth;H=stage.clientHeight;cv.width=Math.round(W*d);cv.height=Math.round(H*d);drawn=-1;}
+  // the renders are 1280x720, so a 1x backing store is already sharper than the source
+  function size(){W=stage.clientWidth;H=stage.clientHeight;cv.width=W;cv.height=H;drawn=-1;}
   // where the machine sits in each part of the film, so narrow screens crop around it
   const focus=p=>p<.42?.62-.12*seg(p,.1,.42):p<.72?.5+.12*seg(p,.42,.72):.62-.17*seg(p,.72,1);
   const portrait=()=>H>W*1.05;
-  let want=0,P=0;
-  function nearestLoaded(i){for(let k=0;k<N;k++){for(const j of [i-k,i+k]){const f=frames[j];if(f&&f.complete&&f.naturalWidth)return j;}}return -1;}
+  function nearestLoaded(i){if(bmps.has(i))return i;let best=-1,bd=1e9;for(const j of bmps.keys()){const d=Math.abs(j-i);if(d<bd){bd=d;best=j;}}return best;}
   function draw(){
     const j=nearestLoaded(want);if(j<0||(j===drawn&&!(portrait()&&P<.13)))return;drawn=j;
-    const im=frames[j],iw=im.naturalWidth,ih=im.naturalHeight,cw=cv.width,ch=cv.height;
+    const im=bmps.get(j),iw=im.width,ih=im.height,cw=cv.width,ch=cv.height;
     // portrait hero: shrink the film into the top half so the headline gets its own space below
     const k=portrait()?1-seg(P,.02,.12):0,top=0,vh=ch*(1-k*.46);
     const sc=Math.max(cw/iw,vh/ih),dw=iw*sc,dh=ih*sc;
@@ -403,7 +421,7 @@ footer .row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
     if(k>0){const g=ctx.createLinearGradient(0,dy+dh*.8,0,dy+dh);g.addColorStop(0,"rgba(8,9,10,0)");g.addColorStop(1,"#08090a");ctx.fillStyle=g;ctx.fillRect(0,dy+dh*.8,cw,dh*.2+1);}
   }
   function render(p){
-    P=p;want=Math.round(p*(N-1));draw();
+    P=p;const w=Math.round(p*(N-1));if(w!==want){dir=w>want?1:-1;want=w;pump();}draw();
     heroOv.style.opacity=(1-seg(p,.02,.1)).toFixed(3);heroOv.style.visibility=p>.1?"hidden":"visible";
     const step=p<.1?-1:p<.42?0:p<.72?1:p<.88?2:3;
     caps.forEach((c,i)=>c.classList.toggle("on",i===step));
@@ -413,7 +431,7 @@ footer .row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
   let ticking=false;
   function onScroll(){if(ticking)return;ticking=true;requestAnimationFrame(()=>{ticking=false;render(reduce?0:progress());});}
   size();addEventListener("resize",()=>{size();onScroll();});addEventListener("scroll",onScroll,{passive:true});
-  render(reduce?0:progress());
+  pump();render(reduce?0:progress());
 
   // copy buttons
   document.querySelectorAll(".copy").forEach(b=>b.addEventListener("click",()=>{
