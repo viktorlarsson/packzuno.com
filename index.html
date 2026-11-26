@@ -3,8 +3,54 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Packzuno har Pokémon-kort i automater i köpcentrum.">
-<title>Packzuno</title>
+<title>Packzuno – Pokémon-kort i automater i köpcentrum</title>
+<meta name="description" content="Packzuno har Pokémon-kort i automater i svenska köpcentrum. Boosterpaket och nya släpp, öppet när centrumet är öppet. Hitta en automat nära dig.">
+<link rel="canonical" href="https://packzuno.com/">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#08090a">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Packzuno">
+<meta property="og:locale" content="sv_SE">
+<meta property="og:url" content="https://packzuno.com/">
+<meta property="og:title" content="Packzuno – Pokémon-kort i automater i köpcentrum">
+<meta property="og:description" content="Boosterpaket och nya släpp i automater där du redan handlar.">
+<meta property="og:image" content="https://packzuno.com/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Linjeskiss av en tänd Packzuno-automat">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Packzuno – Pokémon-kort i automater i köpcentrum">
+<meta name="twitter:description" content="Boosterpaket och nya släpp i automater där du redan handlar.">
+<meta name="twitter:image" content="https://packzuno.com/og.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://packzuno.com/#organization",
+      "name": "Packzuno AB",
+      "alternateName": "Packzuno",
+      "url": "https://packzuno.com/",
+      "logo": "https://packzuno.com/apple-touch-icon.png",
+      "telephone": "+46736455665",
+      "areaServed": { "@type": "Country", "name": "Sverige" },
+      "contactPoint": { "@type": "ContactPoint", "telephone": "+46736455665", "contactType": "customer service", "availableLanguage": ["Swedish", "English"] }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://packzuno.com/#website",
+      "url": "https://packzuno.com/",
+      "name": "Packzuno",
+      "inLanguage": "sv-SE",
+      "publisher": { "@id": "https://packzuno.com/#organization" }
+    }
+  ]
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap">
@@ -96,7 +142,7 @@ h1{font-family:var(--font-display);font-weight:500;font-size:clamp(44px,8vw,88px
 .cap{grid-area:1/1;max-width:380px;opacity:0;transform:translateY(8px);transition:opacity .4s,transform .4s}
 .cap.on{opacity:1;transform:none}
 .cap .mono{color:var(--amber)}
-.cap h3{font-family:var(--font-display);font-weight:500;font-size:24px;letter-spacing:-.02em;margin:8px 0 6px;line-height:1.2}
+.cap h2{font-family:var(--font-display);font-weight:500;font-size:24px;letter-spacing:-.02em;margin:8px 0 6px;line-height:1.2}
 .cap p{margin:0;color:var(--muted);font-size:15px}
 .cap-bg{position:absolute;inset:auto 0 0 0;height:46%;background:linear-gradient(transparent,rgba(8,9,10,.92) 60%);pointer-events:none}
 .progress{position:absolute;top:calc(env(safe-area-inset-top,0px) + 84px);right:max(20px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:8px;align-items:flex-end}
@@ -142,7 +188,7 @@ h2{font-family:var(--font-display);font-weight:500;font-size:clamp(32px,4.4vw,48
 .contact h2{max-width:14ch}
 .contact-lines{display:flex;flex-direction:column;gap:14px}
 .cline{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border:1px solid var(--line-strong);border-radius:10px;background:rgba(0,0,0,.25);min-width:0}
-.cline span{font-size:16px;user-select:all;overflow-wrap:anywhere}
+.cline span,.cline a{font-size:16px;user-select:all;overflow-wrap:anywhere}
 .copy{font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:none;border:1px solid var(--line-strong);border-radius:6px;padding:5px 8px;cursor:pointer;flex:none}
 .copy:hover{color:var(--fg)}
 
@@ -223,10 +269,10 @@ footer .row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
       <div class="progress" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
       <div class="captions">
         <div class="wrap">
-          <div class="cap" data-cap="0"><div class="mono">01</div><h3>Där du redan handlar</h3><p>Vid entrén, rulltrappan eller på vägen mellan butikerna.</p></div>
-          <div class="cap" data-cap="1"><div class="mono">02</div><h3>Automaten ställs på plats</h3><p>En liten yta längs stråket räcker.</p></div>
-          <div class="cap" data-cap="2"><div class="mono">03</div><h3>Fylld med samlarkort</h3><p>Boosterpaket och nya släpp, påfyllt löpande.</p></div>
-          <div class="cap" data-cap="3"><div class="mono">04</div><h3>Öppet när centrumet är öppet</h3><p>Välj, betala och ta med dig korten direkt.</p></div>
+          <div class="cap" data-cap="0"><div class="mono">01</div><h2>Där du redan handlar</h2><p>Vid entrén, rulltrappan eller på vägen mellan butikerna.</p></div>
+          <div class="cap" data-cap="1"><div class="mono">02</div><h2>Automaten ställs på plats</h2><p>En liten yta längs stråket räcker.</p></div>
+          <div class="cap" data-cap="2"><div class="mono">03</div><h2>Fylld med samlarkort</h2><p>Boosterpaket och nya släpp, påfyllt löpande.</p></div>
+          <div class="cap" data-cap="3"><div class="mono">04</div><h2>Öppet när centrumet är öppet</h2><p>Välj, betala och ta med dig korten direkt.</p></div>
         </div>
       </div>
     </div>
@@ -301,7 +347,7 @@ footer .row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
         </div>
         <div class="contact-lines">
           <div class="cline"><span id="mail" class="ph" title="Platshållare">hej@packzuno.se</span><button class="copy" type="button" data-copy="mail">Kopiera</button></div>
-          <div class="cline"><span id="tel" class="ph" title="Platshållare">+46 70 000 00 00</span><button class="copy" type="button" data-copy="tel">Kopiera</button></div>
+          <div class="cline"><a id="tel" href="tel:+46736455665">073-645 56 65</a><button class="copy" type="button" data-copy="tel">Kopiera</button></div>
         </div>
       </div>
     </div>
@@ -310,7 +356,7 @@ footer .row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 
 <footer>
   <div class="wrap">
-    <div class="row"><span>© 2026 <span class="ph" title="Platshållare, bekräfta bolagsnamn">Packzuno AB</span></span><span>Streckade uppgifter är platshållare.</span></div>
+    <div class="row"><span>© 2026 Packzuno AB</span><span>Streckade uppgifter är platshållare.</span></div>
     <div>Pokémon är ett varumärke som tillhör Nintendo, Creatures Inc. och GAME FREAK inc. Packzuno är inte knutet till eller godkänt av dessa bolag.</div>
   </div>
 </footer>
