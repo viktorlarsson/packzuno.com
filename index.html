@@ -192,9 +192,16 @@ h2{font-family:var(--font-display);font-weight:500;font-size:clamp(32px,4.4vw,48
 .copy{font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:none;border:1px solid var(--line-strong);border-radius:6px;padding:5px 8px;cursor:pointer;flex:none}
 .copy:hover{color:var(--fg)}
 
-.places{display:flex;flex-direction:column;border-top:1px solid var(--line)}
-.place{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 0;border-bottom:1px solid var(--line);font-size:18px}
-.place .mono{color:var(--amber)}
+.tip{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:40px;align-items:center}
+.tip-text{display:flex;flex-direction:column;gap:16px;align-items:flex-start}
+.tip-text p{color:var(--muted);margin:0;font-size:17px;max-width:46ch}
+.tip-art{width:100%;max-width:320px;justify-self:center}
+.tip-art .ring{fill:none;stroke:var(--line-strong);stroke-width:1}
+.tip-art .r1{stroke:var(--amber);opacity:.8}
+.tip-art .r2{stroke:var(--amber);opacity:.35}
+.tip-art .pin{fill:var(--surface);stroke:var(--fg);stroke-width:1.4;stroke-linejoin:round}
+.tip-art .pin-dot{fill:none;stroke:var(--amber);stroke-width:1.6}
+@media (max-width:860px){.tip{grid-template-columns:minmax(0,1fr)}.tip-art{max-width:220px}}
 footer{padding-block:48px 64px;border-top:1px solid var(--line);color:var(--faint);font-size:13px}
 footer .wrap{display:flex;flex-direction:column;gap:12px}
 footer .row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
@@ -229,7 +236,7 @@ footer .row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
       <a href="#platser">Hitta oss</a>
       <a href="#kopcentrum">För köpcentrum</a>
     </nav>
-    <a class="btn primary" href="#platser">Hitta en automat</a>
+    <a class="btn primary" href="#platser">Tipsa om en plats</a>
   </div>
 </header>
 
@@ -260,7 +267,7 @@ footer .row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
           <p class="lede">Packzuno har <strong>Pokémon-kort</strong> i automater där du redan handlar. Boosterpaket och samlarkort, när centrumet är öppet.</p>
           <div class="cta-row">
             <a class="btn primary" href="#korten">Se vad som finns</a>
-            <a class="btn" href="#platser">Hitta en automat</a>
+            <a class="btn" href="#platser">Tipsa om en plats</a>
           </div>
           <div class="scroll-hint mono"><i></i>Scrolla så placerar vi den</div>
         </div>
@@ -312,15 +319,23 @@ footer .row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 
   <section class="block" id="platser">
     <div class="wrap">
-      <div class="sec-head">
-        <span class="mono">Hitta oss</span>
-        <h2>Snart i ett köpcentrum nära dig.</h2>
-        <p>Vi presenterar de första platserna här.</p>
-      </div>
-      <div class="places">
-        <div class="place"><span class="ph" title="Platshållare">Köpcentrum, Stockholm</span><span class="mono">Snart</span></div>
-        <div class="place"><span class="ph" title="Platshållare">Köpcentrum, Göteborg</span><span class="mono">Snart</span></div>
-        <div class="place"><span class="ph" title="Platshållare">Köpcentrum, Malmö</span><span class="mono">Snart</span></div>
+      <div class="tip">
+        <div class="tip-text">
+          <span class="mono">Hitta oss</span>
+          <h2>Var vill du ha en Packzuno?</h2>
+          <p>Vi väljer de första platserna nu. Skicka namnet på ditt köpcentrum, så tar vi med det när vi pratar med centrumen.</p>
+          <div class="cta-row">
+            <a class="btn primary" href="sms:+46736455665?&amp;body=Packzuno%20i%20">Tipsa via sms</a>
+            <a class="btn" href="#kontakt">Andra sätt att nå oss</a>
+          </div>
+        </div>
+        <svg class="tip-art" viewBox="0 0 240 200" aria-hidden="true">
+          <ellipse cx="120" cy="164" rx="96" ry="22" class="ring r3"/>
+          <ellipse cx="120" cy="164" rx="62" ry="14" class="ring r2"/>
+          <ellipse cx="120" cy="164" rx="30" ry="7" class="ring r1"/>
+          <path d="M120 160c-26-34-40-56-40-78a40 40 0 0 1 80 0c0 22-14 44-40 78z" class="pin"/>
+          <circle cx="120" cy="82" r="14" class="pin-dot"/>
+        </svg>
       </div>
     </div>
   </section>
